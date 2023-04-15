@@ -1,0 +1,10 @@
+env:
+  PYTHONUNBUFFERED: 0
+  ATHENA_ASSUME_ROLE: 1
+redash:
+  cookieSecret: /f37E/+k=
+  secretKey: tSYvwuo=
+postgresql:
+  postgresqlPassword: +4HY=
+redis:
+  password: HFzI=
