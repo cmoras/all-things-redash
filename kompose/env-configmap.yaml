@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  REDASH_COOKIE_SECRET: BUcAk9WbMHrlTChMHVnvWnJrEoqWgKdtRYpwX1m6fnU
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: scheduler-env
+  name: env

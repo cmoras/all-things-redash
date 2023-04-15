@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: worker
+  name: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: worker
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/kompose-default: "true"
+        io.kompose.service: worker
+    spec:
+      containers:
+        - args:
+            - dev_worker
+          env:
+            - name: PYTHONUNBUFFERED
+              value: "0"
+            - name: REDASH_COOKIE_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  key: REDASH_COOKIE_SECRET
+                  name: env
+            - name: REDASH_DATABASE_URL
+              value: postgresql://postgres@postgres/postgres
+            - name: REDASH_ENFORCE_CSRF
+              value: "true"
+            - name: REDASH_GUNICORN_TIMEOUT
+              value: "60"
+            - name: REDASH_LOG_LEVEL
+              value: INFO
+            - name: REDASH_MAIL_DEFAULT_SENDER
+              value: redash@example.com
+            - name: REDASH_MAIL_SERVER
+              value: email
+            - name: REDASH_RATELIMIT_ENABLED
+              value: "false"
+            - name: REDASH_REDIS_URL
+              value: redis://redis:6379/0
+          image: worker
+          name: worker
+          resources: {}
+          volumeMounts:
+            - mountPath: /app
+              name: worker-claim0
+      restartPolicy: Always
+      volumes:
+        - name: worker-claim0
+          persistentVolumeClaim:
+            claimName: worker-claim0
+status: {}
