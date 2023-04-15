@@ -51,6 +51,38 @@ The command deploys Redash on the Kubernetes cluster in the default configuratio
 
 > **Tip**: List all releases using `helm list`
 
+Addional Tips:
+
+With this setup,  what you would get is an option to estailly create a connection using accesskey and secret key. In case you want to proceed with IAM role.  then follow the procedure. 
+
+```bash
+env:
+  PYTHONUNBUFFERED: 0
+  ATHENA_ASSUME_ROLE: 1
+redash:
+  cookieSecret: /f37E/+k=
+  secretKey: tSYvwuo=
+postgresql:
+  postgresqlPassword: +4HY=
+redis:
+  password: HFzI=
+```
+Once done run the following helm upgrade command once again
+
+```bash
+$ helm upgrade --install -f my-values.yaml my-release redash/redash
+```
+
+Next step involves aws. 
+Create 2 iam roles:
+iam-role-1:  provide the necessary permission to connect to athena.
+for trust relation go ahead with assume role functionality for iam-role-2
+
+iam-role-2:  is actully the node role that is tagged for the k8s-node-grp. No changes on this.
+
+with this you should be able to connect via IAM roles. 
+The suport for other service will be added as per  :  https://github.com/getredash/redash/issues/5793#issue-1302464287
+
 ## Uninstalling the Chart
 
 To uninstall/delete the `my-release` deployment:
