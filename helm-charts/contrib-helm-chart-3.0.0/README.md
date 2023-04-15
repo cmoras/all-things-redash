@@ -72,9 +72,10 @@ Once done run the following helm upgrade command once again
 ```bash
 $ helm upgrade --install -f my-values.yaml my-release redash/redash
 ```
-
 Next step involves aws. 
+
 Create 2 iam roles:
+
 iam-role-1:  provide the necessary permission to connect to athena.
 for trust relation go ahead with assume role functionality for iam-role-2
 
